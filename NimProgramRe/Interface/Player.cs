@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Interface
 {
-    class Player
+    public interface Player
     {
+
     }
 }

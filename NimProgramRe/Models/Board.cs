@@ -23,6 +23,7 @@ namespace NimProgramRe.Models
             rows[0] = 3;
             rows[1] = 5;
             rows[2] = 7;
+            //HIHYIHIHIHI
             SavedGameStates.Clear();
         }
 

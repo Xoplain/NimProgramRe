@@ -8,5 +8,6 @@ namespace NimProgramRe.Models
 {
     class RandomAIPlayer
     {
+
     }
 }
