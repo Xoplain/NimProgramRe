@@ -1,9 +1,11 @@
 ﻿using NimProgramRe.Models;
 using System;
+using CSC160_ConsoleMenu;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NimProgramRe.Interface;
 
 namespace NimProgramRe
 {
@@ -14,127 +16,150 @@ namespace NimProgramRe
             currentBoard = new Board();
             generator = new Random();
             MapOfMoves = new Dictionary<int[], float>();
-            OccurencesOfState = new Dictionary<int[],int>();
+            OccurencesOfState = new Dictionary<int[], int>();
         }
 
-        public Board currentBoard;
         public Random generator;
+        public Board currentBoard;
         public Dictionary<int[], float> MapOfMoves;
         public Dictionary<int[], int> OccurencesOfState;
 
-        int asdfasdf = 0;
+        public Player player1;
+        public Player player2;
 
-        public void ChooseMoveForAI()
-        {
-            Dictionary<int[], float> LegalMoves = new Dictionary<int[],float>();
-            foreach(int[] stateInQuestion in MapOfMoves.Keys)
-            {
-                if(IsLegal(currentBoard.GetAllRows(), stateInQuestion) && MapOfMoves[stateInQuestion] <= 0)
-                {
-                    LegalMoves.Add(stateInQuestion, MapOfMoves[stateInQuestion]);
-                }
-            }
-
-            if(LegalMoves.Count == 0)
-            {
-                RandomlyChooseMove();
-            }
-            else
-            {
-                int[] boardToUse = null;
-
-                foreach (int[] BigIndex in LegalMoves.Keys)
-                {
-                    if (boardToUse == null)
-                    {
-                        boardToUse = BigIndex;
-                    }
-
-                    if (LegalMoves[BigIndex] < LegalMoves[boardToUse])
-                    {
-                        boardToUse = BigIndex;
-                    }
-                }
-
-                for (int i = 0; i < currentBoard.GetAllRows().Length; i++)
-                {
-                    if (currentBoard.GetRowNumber(i) > boardToUse[i])
-                    {
-                        currentBoard.MinusOnRow(i, currentBoard.GetRowNumber(i) - boardToUse[i]);
-                        break;
-                    }
-                }
-            }
-        }
-
-        public bool IsLegal(int[] currentState, int[] stateInQuestion)
+        public static bool IsLegal(int[] currentState, int[] stateInQuestion)
         {
             int count = 0;
 
-            for(int i = 0; i < currentState.Length; i++)
+            for (int i = 0; i < currentState.Length; i++)
             {
                 if (stateInQuestion[i] < currentState[i])
                     count++;
                 if (stateInQuestion[i] > currentState[i])
                     return false;
-                
             }
-
             return (count == 1);
         }
-
-        bool smartTurn = true;
-
-        int smartPlayerWins = 0;
-        int randomPlayerWins = 0;
 
         int turnDeterminer = 0;
 
         public void Run()
         {
+            bool playingGame = true;
 
-            for (int i = 0; i < 10000; i++)
+            while (playingGame)
             {
-                if (turnDeterminer % 2 == 0)
-                    smartTurn = true;
-                else
-                    smartTurn = false;
+                Console.WriteLine("How would you like to play Nim?");
+                int gameSelection = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String> { "Human VS Human", "Human VS Computer", "Computer VS Computer" }, true);
+                int aiGamesToPlay = 0;
 
-                while (!IsGameEnded())
+
+                switch (gameSelection)
                 {
-                    //PrintBoard();
-                    if (smartTurn)
-                        ChooseMoveForAI();
-                    else
-                        RandomlyChooseMove();
+                    case 1:
+                        {
+                            player1 = new HumanPlayer(currentBoard);
+                            player2 = new HumanPlayer(currentBoard);
+                            break;
+                        }
+                    case 2:
+                        {
+                            player1 = new HumanPlayer(currentBoard);
+                            player2 = new SmartAIPlayer(currentBoard, MapOfMoves, OccurencesOfState);
+                            break;
+                        }
+                    case 3:
+                        {
+                            player1 = new SmartAIPlayer(currentBoard, MapOfMoves, OccurencesOfState);
+                            player2 = new RandomAIPlayer(currentBoard);
+                            aiGamesToPlay = CSC160_ConsoleMenu.CIO.PromptForInt("How many games would you like the AI to play?", 1, int.MaxValue);
 
-                    smartTurn = !smartTurn;
+                            for (int i = 0; i < aiGamesToPlay; i++)
+                            {
+                                PlayAGame();
+                            }
+
+                            Console.WriteLine("Done!");
+                            aiGamesToPlay = 0;
+
+                            break;
+                        }
+                    case 0:
+                        {
+                            playingGame = false;
+                            break;
+                        }
                 }
-                EndGame();
-                turnDeterminer++;
+
+                if (playingGame)
+                {
+                    PlayAGame();
+                }
+                else
+                {
+                    Console.WriteLine("Goodbye!");
+                }
+
             }
         }
 
-        
+        public void PlayAGame()
+        {
+            bool FirstPlayerTurn = false;
+            if (turnDeterminer % 2 == 0)
+            {
+                FirstPlayerTurn = true;
+            }
+
+            while (!IsGameEnded())
+            {
+
+                if (player1.GetType().Equals(typeof(HumanPlayer)))
+                {
+                    string whoseTurn = FirstPlayerTurn ? "1" : "2";
+                    Console.WriteLine();
+                    Console.WriteLine("========");
+                    Console.WriteLine("PLAYER " + whoseTurn);
+                    Console.WriteLine("========");
+                    Console.WriteLine();
+
+                    PrintBoard();
+                }
+
+
+                if (FirstPlayerTurn)
+                    player1.ChooseMove();
+                else
+                    player2.ChooseMove();
+
+                FirstPlayerTurn = !FirstPlayerTurn;
+            }
+
+            if (player1.GetType().Equals(typeof(HumanPlayer)))
+            {
+                PrintBoard();
+                string winningPlayer = FirstPlayerTurn ? "1" : "2";
+                Console.WriteLine();
+                Console.WriteLine("Congratulations Player " + winningPlayer + "!");
+                Console.WriteLine();
+            }
+            EndGame();
+            turnDeterminer++;
+        }
 
         public void EndGame()
         {
             int stateCountIndex = 1;
 
-            if (smartTurn)
-                smartPlayerWins++;
-            else
-                randomPlayerWins++;
-
-            foreach(int[] indexed in currentBoard.GetAllStates())
+            foreach (int[] indexed in currentBoard.GetAllStates())
             {
                 float scoreThisMove = ((float)Math.Pow(-1, currentBoard.GetAllStates().Count - stateCountIndex) * stateCountIndex) / (currentBoard.GetAllStates().Count);
-                
+
                 bool alreadyExisting = false;
 
-                foreach(int[] keyIndex in MapOfMoves.Keys)
+                foreach (int[] keyIndex in MapOfMoves.Keys)
                 {
-                    if(EqualArrays(keyIndex, indexed))
+                    if (EqualArrays(keyIndex, indexed))
                     {
                         alreadyExisting = true;
                         float newValue = ((MapOfMoves[keyIndex] * OccurencesOfState[keyIndex]) + scoreThisMove) / (OccurencesOfState[keyIndex] + 1);
@@ -160,7 +185,7 @@ namespace NimProgramRe
         public bool EqualArrays(int[] first, int[] second)
         {
             bool result = true;
-            for(int i = 0; i < first.Length; i++)
+            for (int i = 0; i < first.Length; i++)
             {
                 if (first[i] != second[i])
                     result = false;
@@ -171,7 +196,7 @@ namespace NimProgramRe
         public bool IsGameEnded()
         {
             bool result = true;
-            foreach(int indexed in currentBoard.GetAllRows())
+            foreach (int indexed in currentBoard.GetAllRows())
             {
                 if (indexed > 0)
                     result = false;

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Interface
 {
-    public interface Player
+    public abstract class Player
     {
-
+        public abstract void ChooseMove();
     }
 }

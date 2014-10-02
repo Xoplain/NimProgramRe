@@ -23,7 +23,6 @@ namespace NimProgramRe.Models
             rows[0] = 3;
             rows[1] = 5;
             rows[2] = 7;
-            //HIHYIHIHIHI
             SavedGameStates.Clear();
         }
 
@@ -37,6 +36,11 @@ namespace NimProgramRe.Models
             return SavedGameStates;
         }
 
+        /// <summary>
+        /// Zero based
+        /// </summary>
+        /// <param name="rowNum"></param>
+        /// <param name="minus"></param>
         public void MinusOnRow(int rowNum, int minus)
         {
             rows[rowNum] -= minus;
