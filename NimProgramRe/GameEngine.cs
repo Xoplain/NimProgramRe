@@ -22,13 +22,6 @@ namespace NimProgramRe
         public Player player1;
         public Player player2;
 
-        public void ResetBoard()
-        {
-            currentBoard.SetRowValue(0, 3);
-            currentBoard.SetRowValue(1, 5);
-            currentBoard.SetRowValue(2, 7);
-        }
-
         public void Run()
         {
             bool playingGame = true;
@@ -120,6 +113,13 @@ namespace NimProgramRe
             firstTurnDeterminer++;
         }
 
+        public void ResetBoard()
+        {
+            currentBoard.SetRowValue(0, 3);
+            currentBoard.SetRowValue(1, 5);
+            currentBoard.SetRowValue(2, 7);
+        }
+  
         public bool IsGameEnded(Board givenBoard)
         {
             bool result = true;
