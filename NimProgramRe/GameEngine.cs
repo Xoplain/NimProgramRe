@@ -14,11 +14,9 @@ namespace NimProgramRe
         public GameEngine()
         {
             currentBoard = new Board();
-            generator = new Random();
         }
 
-        int turnDeterminer = 0;
-        public Random generator;
+        int firstTurnDeterminer = 0;
         public Board currentBoard;
 
         public Player player1;
@@ -38,7 +36,7 @@ namespace NimProgramRe
             while (playingGame)
             {
                 Console.WriteLine("How would you like to play Nim?");
-                int gameSelection = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String> { "Human VS Human", "Human VS Computer", "Computer VS Computer" }, true);
+                int gameSelection = CIO.PromptForMenuSelection(new List<String> { "Human VS Human", "Human VS Computer", "Computer VS Computer" }, true);
                 int aiGamesToPlay = 0;
 
                 switch (gameSelection)
@@ -93,7 +91,7 @@ namespace NimProgramRe
         public void PlayAGame()
         {
             bool FirstPlayerTurn = false;
-            if (turnDeterminer % 2 == 0)
+            if (firstTurnDeterminer % 2 == 0)
             {
                 FirstPlayerTurn = true;
             }
@@ -108,76 +106,37 @@ namespace NimProgramRe
                 FirstPlayerTurn = !FirstPlayerTurn;
             }
 
-            EndGame();
-            turnDeterminer++;
-        }
-
-        public void EndGame()
-        {
-            int stateCountIndex = 1;
-
-            foreach (int[] indexed in currentBoard.GetAllStates())
+            if(FirstPlayerTurn)
             {
-                float scoreThisMove = ((float)Math.Pow(-1, currentBoard.GetAllStates().Count - stateCountIndex) * stateCountIndex) / (currentBoard.GetAllStates().Count);
-
-                bool alreadyExisting = false;
-
-                foreach (int[] keyIndex in MapOfMoves.Keys)
-                {
-                    if (EqualArrays(keyIndex, indexed))
-                    {
-                        alreadyExisting = true;
-                        float newValue = ((MapOfMoves[keyIndex] * OccurencesOfState[keyIndex]) + scoreThisMove) / (OccurencesOfState[keyIndex] + 1);
-
-                        OccurencesOfState[keyIndex]++;
-                        MapOfMoves[keyIndex] = newValue;
-                        break;
-                    }
-                }
-
-                if (!alreadyExisting)
-                {
-                    MapOfMoves.Add(indexed, scoreThisMove);
-                    OccurencesOfState.Add(indexed, 1);
-                }
-                stateCountIndex++;
+                player1.Win();
+                player2.Lose();
             }
-            ResetBoard();
-        }
-
-        public bool EqualArrays(int[] first, int[] second)
-        {
-            bool result = true;
-            for (int i = 0; i < first.Length; i++)
+            else
             {
-                if (first[i] != second[i])
-                    result = false;
+                player2.Win();
+                player1.Lose();
             }
-            return result;
+
+            firstTurnDeterminer++;
         }
 
         public bool IsGameEnded(Board givenBoard)
         {
             bool result = true;
-            foreach (int indexed in givenBoard.GetAllRows())
+            /*
+             * 
+             * GET BOARDSTATE. SEE IF BOARD STATE IS 0 0 0
+             * 
+             *
+             */ 
+            foreach (int indexed in givenBoard.)
             {
                 if (indexed > 0)
                     result = false;
             }
-            return result;
-        }
 
-        public void PrintBoard()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < currentBoard.GetRowValue(i); j++)
-                {
-                    Console.Write("X");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine("------------");
+
+            return result;
         }
     }
 }
