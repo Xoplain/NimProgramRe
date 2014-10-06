@@ -36,7 +36,7 @@
       <HintPath>..\..\..\..\..\Desktop\School\Application Development\SeguraE_ConsoleMenuDLL\SeguraE_ConsoleMenuDLL\bin\Debug\SeguraE_ConsoleMenuDLL.dll</HintPath>
       <Private>False</Private>
       <HintPath>..\..\..\Visual Studio 2013\Projects\3rd Party DLL\SeguraE_ConsoleMenuDLL.dll</HintPath>
-      <HintPath>..\..\..\Neumont Document\Q5\Principle Of Software\SeguraE_ConsoleMenuDLL.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\School\Application Development\SeguraE_ConsoleMenuDLL\SeguraE_ConsoleMenuDLL\bin\Debug\SeguraE_ConsoleMenuDLL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AILearning.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="Interface\Player.cs" />
     <Compile Include="Models\Board.cs" />

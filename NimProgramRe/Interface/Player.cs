@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NimProgramRe.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace NimProgramRe.Interface
 {
     public abstract class Player
     {
-        public abstract void ChooseMove();
+        public abstract void ChooseMove(Board currentBoard);
     }
 }
