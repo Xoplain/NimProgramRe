@@ -21,8 +21,8 @@ namespace NimProgramRe
         public Random generator;
         public Board currentBoard;
 
-        public Player player1;
-        public Player player2;
+        public IPlayer player1;
+        public IPlayer player2;
 
         public void ResetBoard()
         {

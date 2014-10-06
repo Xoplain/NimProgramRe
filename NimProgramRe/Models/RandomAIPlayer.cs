@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Models
 {
-    public class RandomAIPlayer : Player
+    public class RandomAIPlayer : IPlayer
     {
         public Random generator;
 

@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Interface
 {
-    public abstract class Player
+    public interface IPlayer
     {
-        public abstract void ChooseMove(Board currentBoard);
+        void ChooseMove(Board currentBoard);
+        void Win();
+        void Lose();
     }
 }
