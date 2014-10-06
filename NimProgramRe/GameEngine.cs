@@ -170,7 +170,7 @@ namespace NimProgramRe
                     }
                 }
 
-                if (!alreadyExisting)
+                if (!alreadyExisting) 
                 {
                     MapOfMoves.Add(indexed, scoreThisMove);
                     OccurencesOfState.Add(indexed, 1);
