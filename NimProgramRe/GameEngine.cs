@@ -14,11 +14,9 @@ namespace NimProgramRe
         public GameEngine()
         {
             currentBoard = new Board();
-            generator = new Random();
         }
 
         int turnDeterminer = 0;
-        public Random generator;
         public Board currentBoard;
 
         public IPlayer player1;

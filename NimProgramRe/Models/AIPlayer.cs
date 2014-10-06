@@ -9,6 +9,18 @@ namespace NimProgramRe.Models
 {
     class AIPlayer : IPlayer
     {
+        private List<BoardState> RecievedStates;
+        private List<BoardState> SentStates;
+
+        private LearningEngine learn;
+
+        public AIPlayer()
+        {
+            RecievedStates = new List<BoardState>();
+            SentStates = new List<BoardState>();
+            learn = new LearningEngine();
+        }
+
         public void ChooseMove(Board currentBoard)
         {
             throw new NotImplementedException();
@@ -23,5 +35,10 @@ namespace NimProgramRe.Models
         {
             throw new NotImplementedException();
         }
+
+        private List<BoardState> GetValidMoves(Board board)
+        {
+            List<BoardState> validMoves = new List<BoardState>();
+        } 
     }
 }
