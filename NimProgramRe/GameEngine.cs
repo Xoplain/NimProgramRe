@@ -19,6 +19,7 @@ namespace NimProgramRe
             OccurencesOfState = new Dictionary<int[], int>();
         }
 
+        int turnDeterminer = 0;
         public Random generator;
         public Board currentBoard;
         public Dictionary<int[], float> MapOfMoves;
@@ -41,7 +42,6 @@ namespace NimProgramRe
             return (count == 1);
         }
 
-        int turnDeterminer = 0;
 
         public void Run()
         {
