@@ -7,27 +7,25 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Models
 {
-    public class RandomAIPlayer : Player
+    public class RandomAIPlayer : IPlayer
     {
-        public Board currentBoard;
         public Random generator;
 
-        public RandomAIPlayer(Board currentBoard)
+        public RandomAIPlayer()
         {
-            this.currentBoard = currentBoard;
             generator = new Random();
         }
 
-        public override void ChooseMove()
+        public override void ChooseMove(Board currentBoard)
         {
             //DUPLICATED IN SMART
             int RowToDelete = generator.Next(3);
-            while (currentBoard.GetRowNumber(RowToDelete) <= 0)
+            while (currentBoard.GetRowValue(RowToDelete) <= 0)
             {
                 RowToDelete = generator.Next(3);
             }
 
-            currentBoard.MinusOnRow(RowToDelete, generator.Next(currentBoard.GetRowNumber(RowToDelete)) + 1);
+            currentBoard.MinusOnRow(RowToDelete, generator.Next(currentBoard.GetRowValue(RowToDelete)) + 1);
         }
     }
 }

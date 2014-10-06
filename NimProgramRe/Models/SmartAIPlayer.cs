@@ -7,22 +7,18 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Models
 {
-    public class SmartAIPlayer : Player
+    public class SmartAIPlayer : IPlayer
     {
-        public Board currentBoard;
         public Dictionary<int[], float> MapOfMoves;
         public Dictionary<int[], int> OccurencesOfState;
         public Random generator;
 
-        public SmartAIPlayer(Board currentBoard, Dictionary<int[], float> MapOfMoves, Dictionary<int[], int> OccurencesOfState)
+        public SmartAIPlayer()
         {
-            this.currentBoard = currentBoard;
-            this.MapOfMoves = MapOfMoves;
-            this.OccurencesOfState = OccurencesOfState;
             generator = new Random();
         }
 
-        public override void ChooseMove()
+        public override void ChooseMove(Board currentBoard)
         {
             Dictionary<int[], float> LegalMoves = new Dictionary<int[], float>();
             foreach (int[] stateInQuestion in MapOfMoves.Keys)
@@ -37,12 +33,12 @@ namespace NimProgramRe.Models
             {
                 //DUPLICATED IN RANDOM
                 int RowToDelete = generator.Next(3);
-                while (currentBoard.GetRowNumber(RowToDelete) <= 0)
+                while (currentBoard.GetRowValue(RowToDelete) <= 0)
                 {
                     RowToDelete = generator.Next(3);
                 }
 
-                currentBoard.MinusOnRow(RowToDelete, generator.Next(currentBoard.GetRowNumber(RowToDelete)) + 1);
+                currentBoard.MinusOnRow(RowToDelete, generator.Next(currentBoard.GetRowValue(RowToDelete)) + 1);
             }
             else
             {
@@ -63,9 +59,9 @@ namespace NimProgramRe.Models
 
                 for (int i = 0; i < currentBoard.GetAllRows().Length; i++)
                 {
-                    if (currentBoard.GetRowNumber(i) > boardToUse[i])
+                    if (currentBoard.GetRowValue(i) > boardToUse[i])
                     {
-                        currentBoard.MinusOnRow(i, currentBoard.GetRowNumber(i) - boardToUse[i]);
+                        currentBoard.MinusOnRow(i, currentBoard.GetRowValue(i) - boardToUse[i]);
                         break;
                     }
                 }

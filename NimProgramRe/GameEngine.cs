@@ -15,33 +15,21 @@ namespace NimProgramRe
         {
             currentBoard = new Board();
             generator = new Random();
-            MapOfMoves = new Dictionary<int[], float>();
-            OccurencesOfState = new Dictionary<int[], int>();
-        }
-
-        public Random generator;
-        public Board currentBoard;
-        public Dictionary<int[], float> MapOfMoves;
-        public Dictionary<int[], int> OccurencesOfState;
-
-        public Player player1;
-        public Player player2;
-
-        public static bool IsLegal(int[] currentState, int[] stateInQuestion)
-        {
-            int count = 0;
-
-            for (int i = 0; i < currentState.Length; i++)
-            {
-                if (stateInQuestion[i] < currentState[i])
-                    count++;
-                if (stateInQuestion[i] > currentState[i])
-                    return false;
-            }
-            return (count == 1);
         }
 
         int turnDeterminer = 0;
+        public Random generator;
+        public Board currentBoard;
+
+        public IPlayer player1;
+        public IPlayer player2;
+
+        public void ResetBoard()
+        {
+            currentBoard.SetRowValue(0, 3);
+            currentBoard.SetRowValue(1, 5);
+            currentBoard.SetRowValue(2, 7);
+        }
 
         public void Run()
         {
@@ -53,25 +41,24 @@ namespace NimProgramRe
                 int gameSelection = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String> { "Human VS Human", "Human VS Computer", "Computer VS Computer" }, true);
                 int aiGamesToPlay = 0;
 
-
                 switch (gameSelection)
                 {
                     case 1:
                         {
-                            player1 = new HumanPlayer(currentBoard);
-                            player2 = new HumanPlayer(currentBoard);
+                            player1 = new HumanPlayer();
+                            player2 = new HumanPlayer();
                             break;
                         }
                     case 2:
                         {
-                            player1 = new HumanPlayer(currentBoard);
-                            player2 = new SmartAIPlayer(currentBoard, MapOfMoves, OccurencesOfState);
+                            player1 = new HumanPlayer();
+                            player2 = new SmartAIPlayer();
                             break;
                         }
                     case 3:
                         {
-                            player1 = new SmartAIPlayer(currentBoard, MapOfMoves, OccurencesOfState);
-                            player2 = new RandomAIPlayer(currentBoard);
+                            player1 = new SmartAIPlayer();
+                            player2 = new RandomAIPlayer();
                             aiGamesToPlay = CSC160_ConsoleMenu.CIO.PromptForInt("How many games would you like the AI to play?", 1, int.MaxValue);
 
                             for (int i = 0; i < aiGamesToPlay; i++)
@@ -111,38 +98,16 @@ namespace NimProgramRe
                 FirstPlayerTurn = true;
             }
 
-            while (!IsGameEnded())
+            while (!IsGameEnded(currentBoard))
             {
-
-                if (player1.GetType().Equals(typeof(HumanPlayer)))
-                {
-                    string whoseTurn = FirstPlayerTurn ? "1" : "2";
-                    Console.WriteLine();
-                    Console.WriteLine("========");
-                    Console.WriteLine("PLAYER " + whoseTurn);
-                    Console.WriteLine("========");
-                    Console.WriteLine();
-
-                    PrintBoard();
-                }
-
-
                 if (FirstPlayerTurn)
-                    player1.ChooseMove();
+                    player1.ChooseMove(currentBoard);
                 else
-                    player2.ChooseMove();
+                    player2.ChooseMove(currentBoard);
 
                 FirstPlayerTurn = !FirstPlayerTurn;
             }
 
-            if (player1.GetType().Equals(typeof(HumanPlayer)))
-            {
-                PrintBoard();
-                string winningPlayer = FirstPlayerTurn ? "1" : "2";
-                Console.WriteLine();
-                Console.WriteLine("Congratulations Player " + winningPlayer + "!");
-                Console.WriteLine();
-            }
             EndGame();
             turnDeterminer++;
         }
@@ -175,11 +140,9 @@ namespace NimProgramRe
                     MapOfMoves.Add(indexed, scoreThisMove);
                     OccurencesOfState.Add(indexed, 1);
                 }
-
                 stateCountIndex++;
             }
-
-            currentBoard.ResetBoard();
+            ResetBoard();
         }
 
         public bool EqualArrays(int[] first, int[] second)
@@ -193,10 +156,10 @@ namespace NimProgramRe
             return result;
         }
 
-        public bool IsGameEnded()
+        public bool IsGameEnded(Board givenBoard)
         {
             bool result = true;
-            foreach (int indexed in currentBoard.GetAllRows())
+            foreach (int indexed in givenBoard.GetAllRows())
             {
                 if (indexed > 0)
                     result = false;
@@ -208,24 +171,13 @@ namespace NimProgramRe
         {
             for (int i = 0; i < 3; i++)
             {
-                for (int j = 0; j < currentBoard.GetRowNumber(i); j++)
+                for (int j = 0; j < currentBoard.GetRowValue(i); j++)
                 {
                     Console.Write("X");
                 }
                 Console.WriteLine();
             }
             Console.WriteLine("------------");
-        }
-
-        public void RandomlyChooseMove()
-        {
-            int RowToDelete = generator.Next(3);
-            while (currentBoard.GetRowNumber(RowToDelete) <= 0)
-            {
-                RowToDelete = generator.Next(3);
-            }
-
-            currentBoard.MinusOnRow(RowToDelete, generator.Next(currentBoard.GetRowNumber(RowToDelete)) + 1);
         }
     }
 }

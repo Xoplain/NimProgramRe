@@ -9,8 +9,7 @@ namespace NimProgramRe.Models
     public class Board
     {
         int[] rows = new int[3];
-        List<int[]> SavedGameStates = new List<int[]>();
-
+        
         public Board()
         {
             rows[0] = 3;
@@ -18,44 +17,29 @@ namespace NimProgramRe.Models
             rows[2] = 7;
         }
 
-        public void ResetBoard()
+        public void SetRowValue(int rowNum, int howMany)
         {
-            rows[0] = 3;
-            rows[1] = 5;
-            rows[2] = 7;
-            SavedGameStates.Clear();
+            rows[rowNum] = howMany;
         }
 
-        public int[] GetAllRows()
-        {
-            return rows;
-        }
-
-        public List<int[]> GetAllStates()
-        {
-            return SavedGameStates;
-        }
-
-        /// <summary>
-        /// Zero based
-        /// </summary>
-        /// <param name="rowNum"></param>
-        /// <param name="minus"></param>
-        public void MinusOnRow(int rowNum, int minus)
-        {
-            rows[rowNum] -= minus;
-            AddToSaves();
-        }
-
-        public int GetRowNumber(int rowNum)
+        public int GetRowValue(int rowNum)
         {
             return rows[rowNum];
         }
 
-        public void AddToSaves()
+        public override string ToString()
         {
-            SavedGameStates.Add(new int[rows.Length]);
-            Array.Copy(rows, SavedGameStates[SavedGameStates.Count - 1], 3);
+            StringBuilder DesiredString = new StringBuilder("");
+            for(int i = 0; i < rows.Length; i++)
+            {
+                for( int j = 0; j < rows[i]; j++)
+                {
+                    DesiredString.Append("X");
+                }
+                DesiredString.Append(Environment.NewLine);
+            }
+
+            return DesiredString.ToString();
         }
     }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NimProgramRe.Interface
+namespace NimProgramRe
 {
-    public abstract class Player
+    class AILearning
     {
-        public abstract void ChooseMove();
     }
 }
