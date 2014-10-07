@@ -12,7 +12,7 @@ namespace NimProgramRe.Models
 
         public BoardState GetState()
         {
-            return new BoardState(rows);
+            return new BoardState((int[])rows.Clone());
         }
 
         public Board()
