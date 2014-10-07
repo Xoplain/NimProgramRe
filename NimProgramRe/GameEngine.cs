@@ -43,13 +43,13 @@ namespace NimProgramRe
                     case 2:
                         {
                             player1 = new HumanPlayer("Player 1");
-                            player2 = new SmartAIPlayer();
+                            player2 = new AIPlayer();
                             break;
                         }
                     case 3:
                         {
-                            player1 = new SmartAIPlayer();
-                            player2 = new RandomAIPlayer();
+                            player1 = new AIPlayer();
+                            player2 = new AIPlayer();
                             aiGamesToPlay = CSC160_ConsoleMenu.CIO.PromptForInt("How many games would you like the AI to play?", 1, int.MaxValue);
 
                             for (int i = 0; i < aiGamesToPlay; i++)
