@@ -46,12 +46,49 @@ namespace NimProgramRe.Models
 
         public BoardState GetBestMove(List<BoardState> possibleMoves)
         {
-            throw new NotImplementedException();
+            CheckForNewStates(possibleMoves);
+
+            List<BoardState> bestMoves = new List<BoardState>();
+            double bestMoveValue = 1.0d;
+
+            foreach (BoardState b in possibleMoves)
+            {
+                double moveValue = StateStats[b].GetAverage();
+                if (moveValue < bestMoveValue)
+                {
+                    if (bestMoves.Any())
+                    {
+                        bestMoves.Clear();
+                        bestMoves.Add(b);
+                    }
+                    else
+                    {
+                        bestMoves.Add(b);
+                    }
+                    bestMoveValue = moveValue;
+                }
+                else if(bestMoveValue == moveValue)
+                {
+                    bestMoves.Add(b);
+                }
+            }
+            return bestMoves[new Random().Next(bestMoves.Count)];
         }
 
         public void UpdateStats(List<BoardState> winningList, List<BoardState> losingList)
         {
 
+        }
+
+        private void CheckForNewStates(List<BoardState> states)
+        {
+            foreach (BoardState b in states)
+            {
+                if (!StateStats.ContainsKey(b))
+                {
+                    StateStats.Add(b, new StateValue());
+                }
+            }
         }
     }
 }

@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Models
 {
+    [Serializable()]
     class StateValue
     {
         public double AccumulatedValue { get; set; }
         public int Occurences { get; set; }
+
+        public StateValue()
+        {
+            AccumulatedValue = 0;
+            Occurences = 0;
+        }
 
         public void UpdateValue(double val) {
             Occurences++;
@@ -18,7 +25,7 @@ namespace NimProgramRe.Models
 
         public double GetAverage()
         {
-            return AccumulatedValue / Occurences;
+            return (Occurences == 0) ? 0 : AccumulatedValue / Occurences;
         }
     }
 }
