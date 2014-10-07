@@ -34,9 +34,6 @@
   <ItemGroup>
     <Reference Include="SeguraE_ConsoleMenuDLL">
       <HintPath>..\..\..\..\..\Desktop\School\Application Development\SeguraE_ConsoleMenuDLL\SeguraE_ConsoleMenuDLL\bin\Debug\SeguraE_ConsoleMenuDLL.dll</HintPath>
-      <Private>False</Private>
-      <HintPath>..\..\..\Visual Studio 2013\Projects\3rd Party DLL\SeguraE_ConsoleMenuDLL.dll</HintPath>
-      <HintPath>..\..\..\..\..\Desktop\School\Application Development\SeguraE_ConsoleMenuDLL\SeguraE_ConsoleMenuDLL\bin\Debug\SeguraE_ConsoleMenuDLL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,13 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AILearning.cs" />
     <Compile Include="GameEngine.cs" />
-    <Compile Include="Interface\Player.cs" />
+    <Compile Include="Interface\IPlayer.cs" />
+    <Compile Include="Models\AIPlayer.cs" />
     <Compile Include="Models\Board.cs" />
+    <Compile Include="Models\BoardState.cs" />
     <Compile Include="Models\HumanPlayer.cs" />
+    <Compile Include="Models\LearningEngine.cs" />
     <Compile Include="Models\RandomAIPlayer.cs" />
     <Compile Include="Models\SmartAIPlayer.cs" />
+    <Compile Include="Models\StateValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

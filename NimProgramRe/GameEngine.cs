@@ -19,8 +19,8 @@ namespace NimProgramRe
         int firstTurnDeterminer = 0;
         public Board currentBoard;
 
-        public Player player1;
-        public Player player2;
+        public IPlayer player1;
+        public IPlayer player2;
 
         public void Run()
         {
@@ -122,17 +122,16 @@ namespace NimProgramRe
   
         public bool IsGameEnded(Board givenBoard)
         {
-            bool result = true;
+            bool result = false;
             /*
              * 
              * GET BOARDSTATE. SEE IF BOARD STATE IS 0 0 0
              * 
              *
              */ 
-            foreach (int indexed in givenBoard.)
+            if(givenBoard.GetState().GetHashCode() == 0)
             {
-                if (indexed > 0)
-                    result = false;
+                result = true;
             }
 
 

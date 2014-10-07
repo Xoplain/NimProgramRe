@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Models
 {
-    public class SmartAIPlayer : Player
+    public class SmartAIPlayer : IPlayer
     {
         public Dictionary<int[], float> MapOfMoves;
         public Dictionary<int[], int> OccurencesOfState;

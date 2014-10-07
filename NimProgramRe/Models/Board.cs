@@ -9,7 +9,12 @@ namespace NimProgramRe.Models
     public class Board
     {
         int[] rows = new int[3];
-        
+
+        public BoardState GetState()
+        {
+            return new BoardState(rows);
+        }
+
         public Board()
         {
             rows[0] = 3;
