@@ -80,14 +80,14 @@ namespace NimProgramRe.Models
             CheckForNewStates(winningList);
             CheckForNewStates(losingList);
 
-            for(int i = 1; i <= winningList.Count; i++)
+            for(double i = 1; i <= winningList.Count; i++)
             {
-                StateStats[winningList[i - 1]].UpdateValue(i / winningList.Count);
+                StateStats[winningList[(int)i - 1]].UpdateValue(i / winningList.Count);
             }
 
-            for (int i = 1; i <= losingList.Count; i++)
+            for (double i = 1; i <= losingList.Count; i++)
             {
-                StateStats[losingList[i - 1]].UpdateValue(-i / losingList.Count);
+                StateStats[losingList[(int)i - 1]].UpdateValue(-i / losingList.Count);
             }
             SaveStats();
         }

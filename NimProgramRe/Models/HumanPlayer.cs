@@ -37,9 +37,10 @@ namespace NimProgramRe.Models
         public void ChooseMove(Board board)
         {
             Console.WriteLine("Choose what row to remove from");
-            int rowToRemove = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String> { "First row", "Second row", "Third row" }, false) - 1;
             bool flag = true;
             while (flag)
+            {
+                int rowToRemove = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String> { "First row", "Second row", "Third row" }, false) - 1;
                 if (board.GetRowValue(rowToRemove) != 0)
                 {
                     int removal = CSC160_ConsoleMenu.CIO.PromptForInt("How many would you like to take?", 1, board.GetRowValue(rowToRemove));
@@ -50,6 +51,8 @@ namespace NimProgramRe.Models
                 {
                     Console.WriteLine("There's no more to remove from that row.");
                 }
+                
+            }
         }
 
         public void Win()
