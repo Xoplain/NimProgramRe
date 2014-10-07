@@ -43,7 +43,7 @@ namespace NimProgramRe.Models
                 if (board.GetRowValue(rowToRemove) != 0)
                 {
                     int removal = CSC160_ConsoleMenu.CIO.PromptForInt("How many would you like to take?", 1, board.GetRowValue(rowToRemove));
-                    board.SetRowValue(rowToRemove, removal);
+                    board.SetRowValue(rowToRemove, board.GetRowValue(rowToRemove) - removal);
                     flag = false;
                 }
                 else

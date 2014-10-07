@@ -91,6 +91,8 @@ namespace NimProgramRe
 
             while (!IsGameEnded(currentBoard))
             {
+                Console.WriteLine(currentBoard.ToString());
+
                 if (FirstPlayerTurn)
                     player1.ChooseMove(currentBoard);
                 else
@@ -110,6 +112,7 @@ namespace NimProgramRe
                 player1.Lose();
             }
 
+            ResetBoard();
             firstTurnDeterminer++;
         }
 
