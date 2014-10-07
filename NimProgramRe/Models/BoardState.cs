@@ -19,10 +19,15 @@ namespace NimProgramRe.Models
             return rows[0] * 100 + rows[1] * 10 + rows[2];
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object boardState)
         {
-            bool isEqual = (this.GetHashCode() == obj.GetHashCode()) ? true : false;
-            
+            bool isEqual = false;
+
+            if(boardState.GetType().Equals(typeof(BoardState)))
+            {
+                isEqual = (this.GetHashCode() == boardState.GetHashCode()) ? true : false;
+            }
+
             return isEqual;
         }
     }

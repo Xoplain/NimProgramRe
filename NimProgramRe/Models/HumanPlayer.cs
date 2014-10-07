@@ -11,6 +11,13 @@ namespace NimProgramRe.Models
     {
         //MENU HERE sure.
 
+        String playerName;
+
+        public HumanPlayer(String playerName)
+        {
+            this.playerName = playerName;
+        }
+
         //public override void ChooseMove(Board currentBoard)
         //{
         //    Console.WriteLine("Choose what row to remove from");
@@ -27,46 +34,32 @@ namespace NimProgramRe.Models
         //    }
         //}
 
-        /*
-        public class HumanPlayer : Player
+        public void ChooseMove(Board board)
         {
-            public override void DoMove(Board board)
-            {
-                Console.WriteLine("Choose what row to remove from");
-                int rowToRemove = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String> { "First row", "Second row", "Third row" }, false) - 1;
-                bool flag = true;
-                while (flag)
-                    if (board.GetRowNumber(rowToRemove) != 0)
-                    {
-                        int removal = CSC160_ConsoleMenu.CIO.PromptForInt("How many would you like to take?", 1, board.getRowVal(rowToRemove));
-                        board.setRowValue(rowToRemove, removal);
-                        flag = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine("There's no more to remove from that row.");
-                    }
-            }
-
-            public void win()
-        {
-            System.out.println("You win");
+            Console.WriteLine("Choose what row to remove from");
+            int rowToRemove = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String> { "First row", "Second row", "Third row" }, false) - 1;
+            bool flag = true;
+            while (flag)
+                if (board.GetRowValue(rowToRemove) != 0)
+                {
+                    int removal = CSC160_ConsoleMenu.CIO.PromptForInt("How many would you like to take?", 1, board.GetRowValue(rowToRemove));
+                    board.SetRowValue(rowToRemove, removal);
+                    flag = false;
+                }
+                else
+                {
+                    Console.WriteLine("There's no more to remove from that row.");
+                }
         }
-            public void lost()
-        {
-            System.out.println("You lost");
-        }
-        }
-         */
 
         public void Win()
         {
-            throw new NotImplementedException();
+            Console.WriteLine(playerName + ": You Win!");
         }
 
         public void Lose()
         {
-            throw new NotImplementedException();
+            Console.WriteLine(playerName + ": You Lose");
         }
     }
 }
