@@ -23,17 +23,26 @@ namespace NimProgramRe.Models
 
         public void ChooseMove(Board currentBoard)
         {
-            throw new NotImplementedException();
+            RecievedStates.Add(currentBoard.GetState());
+
+            BoardState DesiredBoardState = learn.GetBestMove(GetValidMoves(currentBoard));
+            
+            for(int i = 0; i < DesiredBoardState.GetIntArray().Length; i++)
+            {
+                currentBoard.SetRowValue(i, DesiredBoardState.GetIntArray()[i]);
+            }
+
+            SentStates.Add(DesiredBoardState);
         }
 
         public void Win()
         {
-            throw new NotImplementedException();
+            learn.UpdateStats(RecievedStates, SentStates);
         }
 
         public void Lose()
         {
-            throw new NotImplementedException();
+            learn.UpdateStats(SentStates, RecievedStates);
         }
 
         private List<BoardState> GetValidMoves(Board board)

@@ -9,10 +9,19 @@ namespace NimProgramRe.Models
     public class BoardState
     {
         int[] rows;
+        
         public BoardState(int[] rows)
         {
             this.rows = rows;
         }
+
+        public int[] GetIntArray()
+        {
+            int[] tempArray = new int[rows.Length];
+            Array.Copy(rows, tempArray, rows.Length);
+            return tempArray;
+        }
+
         public override int GetHashCode()
         {
             Array.Sort(rows);
