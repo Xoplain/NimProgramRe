@@ -11,22 +11,33 @@ namespace NimProgramRe.Models
     class LearningEngine
     {
         private Dictionary<BoardState, StateValue> StateStats;
-        private string filePath = @"C:\Users\Public\Documents\LearningAI";
+        private string FilePath = @"C:\Users\Public\Documents\LearningAI";
 
         public LearningEngine()
         {
-
+            LoadStats();
         }
 
         private void LoadStats()
         {
-
+            if (File.Exists(FilePath + @"\stats.lrn"))
+            {
+                using (Stream stream = File.OpenRead(FilePath + @"\stats.lrn"))
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    StateStats = (Dictionary<BoardState, StateValue>)bf.Deserialize(stream);
+                }
+            }
+            else
+            {
+                StateStats = new Dictionary<BoardState, StateValue>();
+            }
         }
 
-        private void SaveStats()
+        public void SaveStats()
         {
-            System.IO.Directory.CreateDirectory(filePath);
-            using (Stream stream = File.OpenWrite(filePath))
+            System.IO.Directory.CreateDirectory(FilePath);
+            using (Stream stream = File.OpenWrite(FilePath + @"\stats.lrn"))
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(stream, StateStats);
