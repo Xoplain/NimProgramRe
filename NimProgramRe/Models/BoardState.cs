@@ -25,8 +25,9 @@ namespace NimProgramRe.Models
 
         public override int GetHashCode()
         {
-            Array.Sort(rows);
-            return rows[0] * 100 + rows[1] * 10 + rows[2];
+            int[] x = (int[])rows.Clone();
+            Array.Sort(x);
+            return x[0] * 100 + x[1] * 10 + x[2];
         }
 
         public override bool Equals(object boardState)
