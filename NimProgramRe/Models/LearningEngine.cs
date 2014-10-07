@@ -77,6 +77,9 @@ namespace NimProgramRe.Models
 
         public void UpdateStats(List<BoardState> winningList, List<BoardState> losingList)
         {
+            CheckForNewStates(winningList);
+            CheckForNewStates(losingList);
+
             for(int i = 1; i <= winningList.Count; i++)
             {
                 StateStats[winningList[i - 1]].UpdateValue(i / winningList.Count);
