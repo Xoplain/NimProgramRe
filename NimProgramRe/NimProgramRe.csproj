@@ -51,7 +51,9 @@
     <Compile Include="Interface\IPlayer.cs" />
     <Compile Include="Models\AIPlayer.cs" />
     <Compile Include="Models\Board.cs" />
+    <Compile Include="Models\BoardState.cs" />
     <Compile Include="Models\HumanPlayer.cs" />
+    <Compile Include="Models\LearningEngine.cs" />
     <Compile Include="Models\RandomAIPlayer.cs" />
     <Compile Include="Models\SmartAIPlayer.cs" />
     <Compile Include="Models\StateValue.cs" />

@@ -67,5 +67,16 @@ namespace NimProgramRe.Models
                 }
             }
         }
+
+
+        public void Win()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Lose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -25,7 +25,18 @@ namespace NimProgramRe.Models
                 RowToDelete = generator.Next(3);
             }
 
-            currentBoard.MinusOnRow(RowToDelete, generator.Next(currentBoard.GetRowValue(RowToDelete)) + 1);
+            //currentBoard.MinusOnRow(RowToDelete, generator.Next(currentBoard.GetRowValue(RowToDelete)) + 1);
+        }
+
+
+        public void Win()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Lose()
+        {
+            throw new NotImplementedException();
         }
     }
 }
