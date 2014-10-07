@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Models
 {
+    [Serializable()]
     public class BoardState
     {
         int[] rows;
