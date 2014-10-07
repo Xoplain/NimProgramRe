@@ -16,7 +16,7 @@ namespace NimProgramRe.Models
             generator = new Random();
         }
 
-        public override void ChooseMove(Board currentBoard)
+        public void ChooseMove(Board currentBoard)
         {
             //DUPLICATED IN SMART
             int RowToDelete = generator.Next(3);

@@ -36,13 +36,13 @@ namespace NimProgramRe
                 {
                     case 1:
                         {
-                            player1 = new HumanPlayer();
-                            player2 = new HumanPlayer();
+                            player1 = new HumanPlayer("Player 1");
+                            player2 = new HumanPlayer("Player 2");
                             break;
                         }
                     case 2:
                         {
-                            player1 = new HumanPlayer();
+                            player1 = new HumanPlayer("Player 1");
                             player2 = new SmartAIPlayer();
                             break;
                         }
