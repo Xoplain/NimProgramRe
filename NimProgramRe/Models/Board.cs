@@ -8,6 +8,7 @@ namespace NimProgramRe.Models
 {
     public class Board
     {
+        // this is a comment
         int[] rows = new int[3];
 
         public BoardState GetState()
