@@ -98,6 +98,7 @@ namespace NimProgramRe.Models
                     StateStats.Add(b, new StateValue());
                 }
             }
+            states.Reset();
         }
     }
 }
