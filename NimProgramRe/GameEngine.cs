@@ -16,18 +16,11 @@ namespace NimProgramRe
             currentBoard = new Board();
         }
 
-        int turnDeterminer = 0;
+        int firstTurnDeterminer = 0;
         public Board currentBoard;
 
         public IPlayer player1;
         public IPlayer player2;
-
-        public void ResetBoard()
-        {
-            currentBoard.SetRowValue(0, 3);
-            currentBoard.SetRowValue(1, 5);
-            currentBoard.SetRowValue(2, 7);
-        }
 
         public void Run()
         {
@@ -36,27 +29,27 @@ namespace NimProgramRe
             while (playingGame)
             {
                 Console.WriteLine("How would you like to play Nim?");
-                int gameSelection = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String> { "Human VS Human", "Human VS Computer", "Computer VS Computer" }, true);
+                int gameSelection = CIO.PromptForMenuSelection(new List<String> { "Human VS Human", "Human VS Computer", "Computer VS Computer" }, true);
                 int aiGamesToPlay = 0;
 
                 switch (gameSelection)
                 {
                     case 1:
                         {
-                            player1 = new HumanPlayer();
-                            player2 = new HumanPlayer();
+                            player1 = new HumanPlayer("Player 1");
+                            player2 = new HumanPlayer("Player 2");
                             break;
                         }
                     case 2:
                         {
-                            player1 = new HumanPlayer();
-                            player2 = new SmartAIPlayer();
+                            player1 = new HumanPlayer("Player 1");
+                            player2 = new AIPlayer();
                             break;
                         }
                     case 3:
                         {
-                            player1 = new SmartAIPlayer();
-                            player2 = new RandomAIPlayer();
+                            player1 = new AIPlayer();
+                            player2 = new AIPlayer();
                             aiGamesToPlay = CSC160_ConsoleMenu.CIO.PromptForInt("How many games would you like the AI to play?", 1, int.MaxValue);
 
                             for (int i = 0; i < aiGamesToPlay; i++)
@@ -84,20 +77,17 @@ namespace NimProgramRe
                 {
                     Console.WriteLine("Goodbye!");
                 }
-
             }
         }
 
         public void PlayAGame()
         {
-            bool FirstPlayerTurn = false;
-            if (turnDeterminer % 2 == 0)
-            {
-                FirstPlayerTurn = true;
-            }
+            bool FirstPlayerTurn = (firstTurnDeterminer % 2 == 0);
 
-            while (!IsGameEnded(currentBoard))
+            while (!IsGameEnded(currentBoard.GetState()))
             {
+                Console.WriteLine(currentBoard.ToString());
+
                 if (FirstPlayerTurn)
                     player1.ChooseMove(currentBoard);
                 else
@@ -106,76 +96,31 @@ namespace NimProgramRe
                 FirstPlayerTurn = !FirstPlayerTurn;
             }
 
-            EndGame();
-            turnDeterminer++;
-        }
-
-        public void EndGame()
-        {
-            int stateCountIndex = 1;
-
-            foreach (int[] indexed in currentBoard.GetAllStates())
+            if(FirstPlayerTurn)
             {
-                float scoreThisMove = ((float)Math.Pow(-1, currentBoard.GetAllStates().Count - stateCountIndex) * stateCountIndex) / (currentBoard.GetAllStates().Count);
-
-                bool alreadyExisting = false;
-
-                foreach (int[] keyIndex in MapOfMoves.Keys)
-                {
-                    if (EqualArrays(keyIndex, indexed))
-                    {
-                        alreadyExisting = true;
-                        float newValue = ((MapOfMoves[keyIndex] * OccurencesOfState[keyIndex]) + scoreThisMove) / (OccurencesOfState[keyIndex] + 1);
-
-                        OccurencesOfState[keyIndex]++;
-                        MapOfMoves[keyIndex] = newValue;
-                        break;
-                    }
-                }
-
-                if (!alreadyExisting) 
-                {
-                    MapOfMoves.Add(indexed, scoreThisMove);
-                    OccurencesOfState.Add(indexed, 1);
-                }
-                stateCountIndex++;
+                player1.Win();
+                player2.Lose();
             }
+            else
+            {
+                player2.Win();
+                player1.Lose();
+            }
+
             ResetBoard();
+            firstTurnDeterminer++;
         }
 
-        public bool EqualArrays(int[] first, int[] second)
+        public void ResetBoard()
         {
-            bool result = true;
-            for (int i = 0; i < first.Length; i++)
-            {
-                if (first[i] != second[i])
-                    result = false;
-            }
-            return result;
+            currentBoard.SetRowValue(0, 3);
+            currentBoard.SetRowValue(1, 5);
+            currentBoard.SetRowValue(2, 7);
         }
-
-        public bool IsGameEnded(Board givenBoard)
+  
+        public bool IsGameEnded(BoardState state)
         {
-            bool result = true;
-            foreach (int indexed in givenBoard.GetAllRows())
-            {
-                if (indexed > 0)
-                    result = false;
-            }
-            return result;
-        }
-
-        public void PrintBoard()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < currentBoard.GetRowValue(i); j++)
-                {
-                    Console.Write("X");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine("------------");
+            return state.GetHashCode() == 0;
         }
     }
 }

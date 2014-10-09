@@ -9,64 +9,41 @@ namespace NimProgramRe.Models
 {
     public class HumanPlayer : IPlayer
     {
-        //MENU HERE sure.
+        String playerName;
 
-        //public override void ChooseMove(Board currentBoard)
-        //{
-        //    Console.WriteLine("Choose what row to remove from");
-        //    int rowToRemove = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String>{"First row", "Second row", "Third row"}, false) - 1;
-        //    if (currentBoard.GetRowValue(rowToRemove) != 0)
-        //    {
-        //        int removal = CSC160_ConsoleMenu.CIO.PromptForInt("How many would you like to take?", 1, currentBoard.GetRowValue(rowToRemove));
-        //        currentBoard.MinusOnRow(rowToRemove, removal);
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("There's no more to remove from that row.");
-        //        ChooseMove();
-        //    }
-        //}
-
-        /*
-        public class HumanPlayer : Player
+        public HumanPlayer(String playerName)
         {
-            public override void DoMove(Board board)
+            this.playerName = playerName;
+        }
+
+        public void ChooseMove(Board board)
+        {
+            Console.WriteLine("Choose what row to remove from");
+            bool flag = true;
+            while (flag)
             {
-                Console.WriteLine("Choose what row to remove from");
                 int rowToRemove = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(new List<String> { "First row", "Second row", "Third row" }, false) - 1;
-                bool flag = true;
-                while (flag)
-                    if (board.GetRowNumber(rowToRemove) != 0)
-                    {
-                        int removal = CSC160_ConsoleMenu.CIO.PromptForInt("How many would you like to take?", 1, board.getRowVal(rowToRemove));
-                        board.setRowValue(rowToRemove, removal);
-                        flag = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine("There's no more to remove from that row.");
-                    }
+                if (board.GetRowValue(rowToRemove) != 0)
+                {
+                    int removal = CSC160_ConsoleMenu.CIO.PromptForInt("How many would you like to take?", 1, board.GetRowValue(rowToRemove));
+                    board.SetRowValue(rowToRemove, board.GetRowValue(rowToRemove) - removal);
+                    flag = false;
+                }
+                else
+                {
+                    Console.WriteLine("There's no more to remove from that row.");
+                }
             }
-
-            public void win()
-        {
-            System.out.println("You win");
         }
-            public void lost()
-        {
-            System.out.println("You lost");
-        }
-        }
-         */
 
         public void Win()
         {
-            throw new NotImplementedException();
+            Console.WriteLine(playerName + ": You Win!");
         }
 
         public void Lose()
         {
-            throw new NotImplementedException();
+            Console.WriteLine(playerName + ": You Lose");
         }
     }
 }

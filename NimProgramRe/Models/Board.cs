@@ -9,7 +9,12 @@ namespace NimProgramRe.Models
     public class Board
     {
         int[] rows = new int[3];
-        
+
+        public BoardState GetState()
+        {
+            return new BoardState((int[])rows.Clone());
+        }
+
         public Board()
         {
             rows[0] = 3;
@@ -30,9 +35,9 @@ namespace NimProgramRe.Models
         public override string ToString()
         {
             StringBuilder DesiredString = new StringBuilder("");
-            for(int i = 0; i < rows.Length; i++)
+            for (int i = 0; i < rows.Length; i++)
             {
-                for( int j = 0; j < rows[i]; j++)
+                for (int j = 0; j < rows[i]; j++)
                 {
                     DesiredString.Append("X");
                 }

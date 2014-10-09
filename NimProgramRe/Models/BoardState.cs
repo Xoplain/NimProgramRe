@@ -6,23 +6,38 @@ using System.Threading.Tasks;
 
 namespace NimProgramRe.Models
 {
+    [Serializable()]
     public class BoardState
     {
         int[] rows;
+        
         public BoardState(int[] rows)
         {
             this.rows = rows;
         }
-        public override int GetHashCode()
+
+        public IEnumerator<int> GetStateEnumerator()
         {
-            Array.Sort(rows);
-            return rows[0] * 100 + rows[1] * 10 + rows[2];
+            int[] tempArray = (int[])rows.Clone();
+            return (IEnumerator<int>)(tempArray.GetEnumerator());
         }
 
-        public override bool Equals(BoardState boardState)
+        public override int GetHashCode()
         {
-            bool isEqual = (this.GetHashCode() == boardState.GetHashCode()) ? true : false;
-            
+            int[] arrayCopy = (int[])rows.Clone();
+            Array.Sort(arrayCopy);
+            return arrayCopy[0] * 100 + arrayCopy[1] * 10 + arrayCopy[2];
+        }
+
+        public override bool Equals(object boardState)
+        {
+            bool isEqual = false;
+
+            if(boardState.GetType().Equals(typeof(BoardState)))
+            {
+                isEqual = (this.GetHashCode() == boardState.GetHashCode()) ? true : false;
+            }
+
             return isEqual;
         }
     }
