@@ -16,18 +16,17 @@ namespace NimProgramRe.Models
             this.rows = rows;
         }
 
-        public int[] GetIntArray()
+        public IEnumerator<int> GetStateEnumerator()
         {
-            int[] tempArray = new int[rows.Length];
-            Array.Copy(rows, tempArray, rows.Length);
-            return tempArray;
+            int[] tempArray = (int[])rows.Clone();
+            return (IEnumerator<int>)(tempArray.GetEnumerator());
         }
 
         public override int GetHashCode()
         {
-            int[] x = (int[])rows.Clone();
-            Array.Sort(x);
-            return x[0] * 100 + x[1] * 10 + x[2];
+            int[] arrayCopy = (int[])rows.Clone();
+            Array.Sort(arrayCopy);
+            return arrayCopy[0] * 100 + arrayCopy[1] * 10 + arrayCopy[2];
         }
 
         public override bool Equals(object boardState)
