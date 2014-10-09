@@ -47,7 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameEngine.cs" />
-    <Compile Include="Interface\Player.cs" />
+    <Compile Include="Interface\IPlayer.cs" />
+    <Compile Include="Models\AIPlayer.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\BoardState.cs" />
     <Compile Include="Models\HumanPlayer.cs" />

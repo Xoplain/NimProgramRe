@@ -20,7 +20,7 @@ namespace NimProgramRe.Models
         public IEnumerator<int> GetStateEnumerator()
         {
             int[] tempArray = (int[])rows.Clone();
-            return (IEnumerator<int>)(tempArray.GetEnumerator());
+            return ((IEnumerable<int>)tempArray).GetEnumerator();
         }
 
         public override int GetHashCode()
