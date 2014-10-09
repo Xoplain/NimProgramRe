@@ -77,19 +77,14 @@ namespace NimProgramRe
                 {
                     Console.WriteLine("Goodbye!");
                 }
-
             }
         }
 
         public void PlayAGame()
         {
-            bool FirstPlayerTurn = false;
-            if (firstTurnDeterminer % 2 == 0)
-            {
-                FirstPlayerTurn = true;
-            }
+            bool FirstPlayerTurn = (firstTurnDeterminer % 2 == 0);
 
-            while (!IsGameEnded(currentBoard))
+            while (!IsGameEnded(currentBoard.GetState()))
             {
                 Console.WriteLine(currentBoard.ToString());
 
@@ -123,22 +118,9 @@ namespace NimProgramRe
             currentBoard.SetRowValue(2, 7);
         }
   
-        public bool IsGameEnded(Board givenBoard)
+        public bool IsGameEnded(BoardState state)
         {
-            bool result = false;
-            /*
-             * 
-             * GET BOARDSTATE. SEE IF BOARD STATE IS 0 0 0
-             * 
-             *
-             */ 
-            if(givenBoard.GetState().GetHashCode() == 0)
-            {
-                result = true;
-            }
-
-
-            return result;
+            return state.GetHashCode() == 0;
         }
     }
 }

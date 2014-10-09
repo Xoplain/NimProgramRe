@@ -18,7 +18,8 @@ namespace NimProgramRe.Models
             Occurences = 0;
         }
 
-        public void UpdateValue(double val) {
+        public void UpdateValue(double val)
+        {
             Occurences++;
             AccumulatedValue += val;
         }

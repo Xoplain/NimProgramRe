@@ -51,8 +51,6 @@
     <Compile Include="Models\BoardState.cs" />
     <Compile Include="Models\HumanPlayer.cs" />
     <Compile Include="Models\LearningEngine.cs" />
-    <Compile Include="Models\RandomAIPlayer.cs" />
-    <Compile Include="Models\SmartAIPlayer.cs" />
     <Compile Include="Models\StateValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

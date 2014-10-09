@@ -57,17 +57,11 @@ namespace NimProgramRe.Models
                 if (moveValue < bestMoveValue)
                 {
                     if (bestMoves.Any())
-                    {
                         bestMoves.Clear();
-                        bestMoves.Add(b);
-                    }
-                    else
-                    {
-                        bestMoves.Add(b);
-                    }
+                    bestMoves.Add(b);
                     bestMoveValue = moveValue;
                 }
-                else if(bestMoveValue == moveValue)
+                else if (bestMoveValue == moveValue)
                 {
                     bestMoves.Add(b);
                 }
