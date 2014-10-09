@@ -16,11 +16,10 @@ namespace NimProgramRe.Models
             this.rows = rows;
         }
 
-        public int[] GetIntArray()
+        public IEnumerator<int> GetStateEnumerator()
         {
-            int[] tempArray = new int[rows.Length];
-            Array.Copy(rows, tempArray, rows.Length);
-            return tempArray;
+            int[] tempArray = (int[])rows.Clone();
+            return (IEnumerator<int>)(tempArray.GetEnumerator());
         }
 
         public override int GetHashCode()

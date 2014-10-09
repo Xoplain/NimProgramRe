@@ -12,24 +12,26 @@ namespace NimProgramRe.Models
         private List<BoardState> RecievedStates;
         private List<BoardState> SentStates;
 
-        private LearningEngine learn;
+        private LearningEngine Learn;
 
         public AIPlayer()
         {
             RecievedStates = new List<BoardState>();
             SentStates = new List<BoardState>();
-            learn = new LearningEngine();
+            Learn = new LearningEngine();
         }
 
         public void ChooseMove(Board currentBoard)
         {
             RecievedStates.Add(currentBoard.GetState());
 
-            BoardState DesiredBoardState = learn.GetBestMove(GetValidMoves(currentBoard));
+            BoardState DesiredBoardState = Learn.GetBestMove(GetValidMoves(currentBoard.GetState().GetStateEnumerator()));
             
-            for(int i = 0; i < DesiredBoardState.GetIntArray().Length; i++)
+            IEnumerator<int> itr = DesiredBoardState.GetStateEnumerator();
+
+            for (int i = 0; itr.MoveNext(); i++)
             {
-                currentBoard.SetRowValue(i, DesiredBoardState.GetIntArray()[i]);
+                currentBoard.SetRowValue(i, itr.Current);
             }
 
             SentStates.Add(DesiredBoardState);
@@ -37,25 +39,50 @@ namespace NimProgramRe.Models
 
         public void Win()
         {
-            learn.UpdateStats(RecievedStates, SentStates);
+            Learn.UpdateStats(RecievedStates, SentStates);
         }
 
         public void Lose()
         {
-            learn.UpdateStats(SentStates, RecievedStates);
+            Learn.UpdateStats(SentStates, RecievedStates);
         }
 
-        private List<BoardState> GetValidMoves(Board board)
+        private IEnumerator<BoardState> GetValidMoves(IEnumerator<int> boardIterator)
         {
             List<BoardState> validMoves = new List<BoardState>();
 
-            int row1 = board.GetRowValue(0);
-            for (int i = row1 - 1; i >= 0; i--) { validMoves.Add(new BoardState(new int[] { i, board.GetRowValue(1), board.GetRowValue(2) })); }
-            int row2 = board.GetRowValue(1);
-            for (int i = row2 - 1; i >= 0; i--) { validMoves.Add(new BoardState(new int[] { board.GetRowValue(0), i, board.GetRowValue(2) })); }
-            int row3 = board.GetRowValue(2);
-            for (int i = row3 - 1; i >= 0; i--) { validMoves.Add(new BoardState(new int[] { board.GetRowValue(0), board.GetRowValue(1), i })); }
-            return validMoves;
+            int numberOfRows = 0;
+            while (boardIterator.MoveNext()) { numberOfRows++; }
+            boardIterator.Reset();
+
+            int[] stateArray = new int[numberOfRows];
+
+            for (int i = 0; boardIterator.MoveNext(); i++)
+            {
+                stateArray[i] = boardIterator.Current;
+            }
+
+            for (int i = 0; i < stateArray.Length; i++)
+            {
+                for (int j = stateArray[i] - 1; j >= 0; j--)
+                {
+                    int[] newState = new int[stateArray.Length];
+                    for (int k = 0; k < stateArray.Length; k++)
+                    {
+                        if (k == i)
+                        {
+                            newState[k] = j;
+                        }
+                        else
+                        {
+                            newState[k] = stateArray[i];
+                        }
+                    }
+                    validMoves.Add(new BoardState(newState));
+                }
+            }
+
+            return validMoves.GetEnumerator();
         }
     }
 }

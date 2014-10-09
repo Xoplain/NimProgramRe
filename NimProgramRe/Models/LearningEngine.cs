@@ -44,15 +44,16 @@ namespace NimProgramRe.Models
             }
         }
 
-        public BoardState GetBestMove(List<BoardState> possibleMoves)
+        public BoardState GetBestMove(IEnumerator<BoardState> possibleMoves)
         {
             CheckForNewStates(possibleMoves);
 
             List<BoardState> bestMoves = new List<BoardState>();
             double bestMoveValue = 1.0d;
 
-            foreach (BoardState b in possibleMoves)
+            while (possibleMoves.MoveNext())
             {
+                BoardState b = possibleMoves.Current;
                 double moveValue = StateStats[b].GetAverage();
                 if (moveValue < bestMoveValue)
                 {
@@ -67,18 +68,19 @@ namespace NimProgramRe.Models
                     }
                     bestMoveValue = moveValue;
                 }
-                else if(bestMoveValue == moveValue)
+                else if (bestMoveValue == moveValue)
                 {
                     bestMoves.Add(b);
                 }
             }
+
             return bestMoves[new Random().Next(bestMoves.Count)];
         }
 
         public void UpdateStats(List<BoardState> winningList, List<BoardState> losingList)
         {
-            CheckForNewStates(winningList);
-            CheckForNewStates(losingList);
+            CheckForNewStates(winningList.GetEnumerator());
+            CheckForNewStates(losingList.GetEnumerator());
 
             for(double i = 1; i <= winningList.Count; i++)
             {
@@ -92,10 +94,11 @@ namespace NimProgramRe.Models
             SaveStats();
         }
 
-        private void CheckForNewStates(List<BoardState> states)
+        private void CheckForNewStates(IEnumerator<BoardState> states)
         {
-            foreach (BoardState b in states)
+            while (states.MoveNext())
             {
+                BoardState b = states.Current;
                 if (!StateStats.ContainsKey(b))
                 {
                     StateStats.Add(b, new StateValue());

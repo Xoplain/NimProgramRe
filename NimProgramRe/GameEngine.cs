@@ -127,16 +127,12 @@ namespace NimProgramRe
         {
             bool result = false;
             /*
-             * 
              * GET BOARDSTATE. SEE IF BOARD STATE IS 0 0 0
-             * 
-             *
              */ 
             if(givenBoard.GetState().GetHashCode() == 0)
             {
                 result = true;
             }
-
 
             return result;
         }
