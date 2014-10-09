@@ -11,6 +11,7 @@ namespace NimProgramRe.Models
     {
         int[] rows;
         
+        //Test comment v2
         public BoardState(int[] rows)
         {
             this.rows = rows;
